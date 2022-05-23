@@ -8,7 +8,19 @@
     <PackAsTool>True</PackAsTool>
     <ToolCommandName>med</ToolCommandName>
     <PackageOutputPath>./nupkg</PackageOutputPath>
+    <Authors>Nurzhan Aitbayev</Authors>
+    <PackageProjectUrl>https://github.com/nurzhanme/Meditatr</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/nurzhanme/Meditatr</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CliFx" Version="2.2.5" />
