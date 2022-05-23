@@ -13,6 +13,7 @@
     <RepositoryUrl>https://github.com/nurzhanme/Meditatr</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Description>Meditatr is a dotnet CLI tool for scaffolding Mediator Patterns (Command and Queries and their Handlers)</Description>
   </PropertyGroup>
 
   <ItemGroup>
