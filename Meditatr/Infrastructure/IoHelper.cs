@@ -47,6 +47,11 @@ namespace Meditatr.Infrastructure
             return RemoveLastItemInPath(project.AbsolutePath);
         }
 
+        public static string GetOnlyCurrentDirectory()
+        {
+            return Directory.GetCurrentDirectory().Substring(Directory.GetCurrentDirectory().LastIndexOf("\\") + 1);
+        }
+
         private static string RemoveLastItemInPath(string path)
         {
             var index = path.LastIndexOf("\\", StringComparison.Ordinal);

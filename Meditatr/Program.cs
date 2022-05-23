@@ -1,4 +1,5 @@
 ﻿using CliFx;
+using Meditatr.Commands;
 using Meditatr.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,6 +11,10 @@ public static class Program
 
         // Register services
         services.AddSingleton<ClassService>();
+
+        // Register commands
+        services.AddTransient<CommandCreatorCommand>();
+        services.AddTransient<QueryCreatorCommand>();
 
         var serviceProvider = services.BuildServiceProvider();
 
