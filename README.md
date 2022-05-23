@@ -1,5 +1,7 @@
 # Meditatr
 
+Meditatr is a dotnet CLI tool for scaffolding Mediator Patterns (Command and Queries and their Handlers)
+
 ## Installation
 
 To install use dotnet cli:
