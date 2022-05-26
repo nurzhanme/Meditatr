@@ -25,6 +25,7 @@ Show help information:
 ```
 med -h
 ```
+### Commands
 
 Show help for commands:
 
@@ -73,6 +74,8 @@ namespace MyProject.Handlers.Commands.ProductCommands
     }
 }
 ```
+
+### Queries
 
 Show help for queries:
 
