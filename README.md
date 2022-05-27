@@ -140,7 +140,7 @@ med Dto -m Product -p MyProject.Dtos
 ```
 NOTE: Command MUST be executed where model class located
 
-Let's assume there is a model class with following structure'
+Let's assume there is a model class with following structure
 
 ```c#
 
