@@ -124,3 +124,50 @@ namespace MyProject.Handlers.Queries.ProductQueries
     }
 }
 ```
+
+### Data Transfer Objects 
+
+Show help for dtos:
+
+```
+med Dto -h
+```
+
+Example creating dto:
+
+```
+med Dto -m Product -a -p MyProject.Dtos
+```
+NOTE: Command MUST be executed where model class located
+
+Let's assume there is a model class with following structure'
+
+```c#
+
+namespace MyProject.Domain
+{
+    public class Product
+    {
+        public long Id { get; private set; }
+        public string Title { get; private set; }
+        public string Description { get; private set; }
+        public decimal Price { get; private set; }
+    }
+}
+```
+
+after execution of the command 'ProductDto' class had been created
+
+```c#
+
+namespace MyProject.Dtos.Queries.ProductQueries
+{
+    public class ProductDto
+    {
+        public long Id { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public decimal Price { get; set; }
+    }
+}
+```

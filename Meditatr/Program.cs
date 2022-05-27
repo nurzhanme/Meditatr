@@ -15,6 +15,7 @@ public static class Program
         // Register commands
         services.AddTransient<CommandCreatorCommand>();
         services.AddTransient<QueryCreatorCommand>();
+        services.AddTransient<DtoCreatorCommand>();
 
         var serviceProvider = services.BuildServiceProvider();
 

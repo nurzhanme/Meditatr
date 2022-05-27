@@ -7,7 +7,7 @@ using Meditatr.Services;
 namespace Meditatr.Commands
 {
     [Command("Query", Description = "creates query and its handler")]
-    public class QueryCreatorCommand : BaseCreatorCommand, ICommand
+    public class QueryCreatorCommand : BaseCqCreatorCommand, ICommand
     {
         private readonly ClassService _classService;
 

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Meditatr.Enums;
+﻿using Meditatr.Enums;
 using Meditatr.Infrastructure;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -16,6 +11,26 @@ namespace Meditatr.Services
         private CompilationUnitSyntax _compilationUnitSyntax;
         private NamespaceDeclarationSyntax _namespaceDeclarationSyntax;
         private ClassDeclarationSyntax _classDeclarationSyntax;
+
+        public void CreateDto(string projectName, string modelName)
+        {
+            var code = IoHelper.ReadFile($"{modelName}.cs");
+            var tree = CSharpSyntaxTree.ParseText(code);
+
+            _compilationUnitSyntax = SyntaxFactory.CompilationUnit();
+
+            var props = tree
+                .GetRoot()
+                .DescendantNodes()
+                .OfType<PropertyDeclarationSyntax>()
+                .Select(x => new KeyValuePair<string, TypeSyntax>(x.Identifier.Text, x.Type));
+
+            var dtoClassNamespace = CreateNamespace(projectName, modelName, OperationType.Query);
+            AddNamespace(dtoClassNamespace);
+            var className = $"{modelName}Dto";
+            CreateClassStructure(className, propertyList: props);
+            GenerateClass(projectName, modelName, OperationType.Query, className);
+        }
 
         public void Create(string projectName, string handlerProjectName, string modelName, string actionName, OperationType operationType, string returnType)
         {
@@ -44,6 +59,8 @@ namespace Meditatr.Services
             CreateClassStructure(handlerClassname, baseType, true, returnType, cqClassName);
             
             GenerateClass(handlerProjectName, modelName, operationType, handlerClassname);
+
+            CleanUp();
         }
 
         private void AddUsings(bool forHandler = false, string cqClassNamespace = "")
@@ -72,7 +89,7 @@ namespace Meditatr.Services
         }
 
         
-        private void CreateClassStructure(string className, string baseType = "", bool isHandler = false, string handlerReturnType = "", string handlerRequestType = "")
+        private void CreateClassStructure(string className, string baseType = "", bool isHandler = false, string handlerReturnType = "", string handlerRequestType = "", IEnumerable<KeyValuePair<string, TypeSyntax>>? propertyList = null)
         {
             _classDeclarationSyntax = SyntaxFactory.ClassDeclaration(className)
                 .AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword));
@@ -80,7 +97,24 @@ namespace Meditatr.Services
             if (!string.IsNullOrWhiteSpace(baseType))
             {
                 _classDeclarationSyntax = _classDeclarationSyntax.AddBaseListTypes(SyntaxFactory.SimpleBaseType(SyntaxFactory.ParseTypeName(baseType)));
+            }
 
+            if (propertyList != null && propertyList.Any())
+            {
+                foreach (var propertyModel in propertyList)
+                {
+                    var propertyDeclaration = SyntaxFactory
+                        .PropertyDeclaration(propertyModel.Value, propertyModel.Key)
+                        .AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword))
+                        .AddAccessorListAccessors(
+                            SyntaxFactory.AccessorDeclaration(SyntaxKind.GetAccessorDeclaration)
+                                .WithSemicolonToken(SyntaxFactory.Token(SyntaxKind.SemicolonToken)),
+                            SyntaxFactory.AccessorDeclaration(SyntaxKind.SetAccessorDeclaration)
+                                .WithSemicolonToken(SyntaxFactory.Token(SyntaxKind.SemicolonToken))
+                        );
+
+                    _classDeclarationSyntax = _classDeclarationSyntax.AddMembers(propertyDeclaration);
+                }
             }
 
             if (isHandler)

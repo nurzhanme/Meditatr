@@ -14,6 +14,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>Meditatr is a dotnet CLI tool for scaffolding Mediator Patterns (Command and Queries and their Handlers)</Description>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

@@ -14,6 +14,13 @@ namespace Meditatr.Infrastructure
             return path;
         }
 
+        public static string ReadFile(string path)
+        {
+            using var streamReader = new StreamReader(path);
+
+            return streamReader.ReadToEnd();
+        }
+
         public static string CreateFile(string[] pathList, string data)
         {
             var path = Path.Combine(pathList);
@@ -31,11 +38,18 @@ namespace Meditatr.Infrastructure
         public static string GetProjectAbsolutePath(string projectName)
         {
             var currentDir = Directory.GetCurrentDirectory();
-            var solutionFileUri = Directory.GetFiles(currentDir, "*.sln").FirstOrDefault();
+            var solutionFileUri = string.Empty;
+            while (string.IsNullOrWhiteSpace(solutionFileUri) && !string.IsNullOrWhiteSpace(currentDir))
+            {
+                solutionFileUri = Directory.GetFiles(currentDir, "*.sln").FirstOrDefault();
+                currentDir = Directory.GetParent(currentDir)?.ToString();
+            }
+
             if (string.IsNullOrWhiteSpace(solutionFileUri))
             {
-                solutionFileUri = Directory.GetFiles(Directory.GetParent(currentDir).ToString(), "*.sln").FirstOrDefault();
+                throw new FileNotFoundException("Solution file not found");
             }
+
             var projectList = SolutionFile.Parse(solutionFileUri).ProjectsInOrder;
 
             var project =
