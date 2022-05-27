@@ -57,8 +57,6 @@ namespace MyProject.Dtos.Commands.ProductCommands
 
 ```c#
 using MediatR;
-
-using MediatR;
 using MyProject.Dtos.Commands.ProductCommands;
 using System.Threading;
 using System.Threading.Tasks;
@@ -106,8 +104,6 @@ namespace MyProject.Dtos.Queries.ProductQueries
 * and its handler named 'GetProductQueryHandler'
 
 ```c#
-using MediatR;
-
 using MediatR;
 using MyProject.Dtos.Queries.ProductQueries;
 using System.Threading;
