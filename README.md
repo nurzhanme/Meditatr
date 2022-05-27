@@ -136,7 +136,7 @@ med Dto -h
 Example creating dto:
 
 ```
-med Dto -m Product -a -p MyProject.Dtos
+med Dto -m Product -p MyProject.Dtos
 ```
 NOTE: Command MUST be executed where model class located
 
